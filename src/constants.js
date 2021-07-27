@@ -179,6 +179,7 @@ export const DEFAULT_HOSTNAME_UPLOAD = 'https://upload.box.com';
 export const DEFAULT_HOSTNAME_UPLOAD_APP = 'https://upload.app.box.com';
 export const DEFAULT_HOSTNAME_UPLOAD_GOV = 'https://upload.app.box-gov.com';
 export const DEFAULT_HOSTNAME_APP = 'https://app.box.com';
+export const DEFAULT_HOSTNAME_DOWNLOAD = 'https://dl.boxcloud.com';
 export const DEFAULT_CONTAINER = 'body';
 export const DEFAULT_ROOT = '0';
 export const DEFAULT_SEARCH_DEBOUNCE = 500;

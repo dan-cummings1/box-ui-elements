@@ -39,6 +39,7 @@ import {
     DEFAULT_HOSTNAME_UPLOAD,
     DEFAULT_HOSTNAME_API,
     DEFAULT_HOSTNAME_APP,
+    DEFAULT_HOSTNAME_DOWNLOAD,
     DEFAULT_HOSTNAME_STATIC,
     DEFAULT_SEARCH_DEBOUNCE,
     SORT_ASC,
@@ -104,6 +105,7 @@ type Props = {
     contentUploaderProps: ContentUploaderProps,
     currentFolderId?: string,
     defaultView: DefaultView,
+    downloadHost: string,
     features: FeatureConfig,
     fieldsToShow?: FieldsToShow,
     initialPage: number,
@@ -206,6 +208,7 @@ class ContentExplorer extends Component<Props, State> {
         appHost: DEFAULT_HOSTNAME_APP,
         staticHost: DEFAULT_HOSTNAME_STATIC,
         uploadHost: DEFAULT_HOSTNAME_UPLOAD,
+        downloadHost: DEFAULT_HOSTNAME_DOWNLOAD,
         className: '',
         onDelete: noop,
         onDownload: noop,
@@ -1032,6 +1035,9 @@ class ContentExplorer extends Component<Props, State> {
         }
 
         const openUrl: Function = (url: string) => {
+            if (this.props.downloadHost !== DEFAULT_HOSTNAME_DOWNLOAD) {
+                url = url.replace(DEFAULT_HOSTNAME_DOWNLOAD, this.props.downloadHost);
+            }
             openUrlInsideIframe(url);
             onDownload(cloneDeep([selected]));
         };
@@ -1551,6 +1557,7 @@ class ContentExplorer extends Component<Props, State> {
         const {
             apiHost,
             appHost,
+            downloadHost,
             canCreateNewFolder,
             canDelete,
             canDownload,
@@ -1781,6 +1788,7 @@ class ContentExplorer extends Component<Props, State> {
                             cache={this.api.getCache()}
                             apiHost={apiHost}
                             appHost={appHost}
+                            downloadHost={downloadHost}
                             staticHost={staticHost}
                             staticPath={staticPath}
                             previewLibraryVersion={previewLibraryVersion}
