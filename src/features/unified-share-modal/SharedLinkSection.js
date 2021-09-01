@@ -30,7 +30,14 @@ import type {
     tooltipComponentIdentifierType,
     USMConfig,
 } from './flowTypes';
-import { PEOPLE_IN_ITEM, ANYONE_WITH_LINK, CAN_VIEW_DOWNLOAD, CAN_VIEW_ONLY } from './constants';
+import {
+    ANYONE_IN_COMPANY,
+    ANYONE_WITH_LINK,
+    CAN_EDIT,
+    CAN_VIEW_DOWNLOAD,
+    CAN_VIEW_ONLY,
+    PEOPLE_IN_ITEM,
+} from './constants';
 
 type Props = {
     addSharedLink: () => void,
@@ -42,6 +49,7 @@ type Props = {
     ) => Promise<{ permissionLevel: permissionLevelType }>,
     config?: USMConfig,
     intl: any,
+    isAllowEditSharedLinkForFileEnabled: boolean,
     item: itemtype,
     itemType: ItemType,
     onCopyError?: () => void,
@@ -62,6 +70,7 @@ type Props = {
 type State = {
     isAutoCreatingSharedLink: boolean,
     isCopySuccessful: ?boolean,
+    isPermissionElevatedToEdit: boolean,
 };
 
 class SharedLinkSection extends React.Component<Props, State> {
@@ -78,6 +87,7 @@ class SharedLinkSection extends React.Component<Props, State> {
         this.state = {
             isAutoCreatingSharedLink: false,
             isCopySuccessful: null,
+            isPermissionElevatedToEdit: false,
         };
     }
 
@@ -117,7 +127,7 @@ class SharedLinkSection extends React.Component<Props, State> {
             onCopyInit = () => {},
         } = this.props;
 
-        const { isAutoCreatingSharedLink, isCopySuccessful } = this.state;
+        const { isAutoCreatingSharedLink, isCopySuccessful, isPermissionElevatedToEdit } = this.state;
 
         if (
             autoCreateSharedLink &&
@@ -135,6 +145,21 @@ class SharedLinkSection extends React.Component<Props, State> {
             if (this.toggleRef) {
                 this.toggleRef.focus();
             }
+        }
+
+        if (
+            prevProps.sharedLink.permissionLevel !== '' &&
+            prevProps.sharedLink.permissionLevel !== CAN_EDIT &&
+            sharedLink.permissionLevel === CAN_EDIT
+        ) {
+            this.setState({ isPermissionElevatedToEdit: true });
+        }
+
+        if (
+            isPermissionElevatedToEdit &&
+            (sharedLink.permissionLevel !== CAN_EDIT || sharedLink.accessLevel !== ANYONE_IN_COMPANY)
+        ) {
+            this.setState({ isPermissionElevatedToEdit: false });
         }
 
         if (
@@ -172,6 +197,7 @@ class SharedLinkSection extends React.Component<Props, State> {
             changeSharedLinkAccessLevel,
             changeSharedLinkPermissionLevel,
             config,
+            isAllowEditSharedLinkForFileEnabled,
             item,
             itemType,
             intl,
@@ -184,7 +210,7 @@ class SharedLinkSection extends React.Component<Props, State> {
             tooltips,
         } = this.props;
 
-        const { isCopySuccessful } = this.state;
+        const { isCopySuccessful, isPermissionElevatedToEdit } = this.state;
 
         const {
             accessLevel,
@@ -193,6 +219,7 @@ class SharedLinkSection extends React.Component<Props, State> {
             canChangeAccessLevel,
             enterpriseName,
             isEditAllowed,
+            isEditSettingAvailable,
             isDownloadSettingAvailable,
             permissionLevel,
             url,
@@ -218,7 +245,7 @@ class SharedLinkSection extends React.Component<Props, State> {
         const hideEmailButton = config && config.showEmailSharedLinkForm === false;
 
         const isEditableBoxNote = isBoxNote(convertToBoxItem(item)) && isEditAllowed;
-        let allowedPermissionLevels = [CAN_VIEW_DOWNLOAD, CAN_VIEW_ONLY];
+        let allowedPermissionLevels = [CAN_EDIT, CAN_VIEW_DOWNLOAD, CAN_VIEW_ONLY];
 
         if (!canChangeAccessLevel) {
             // remove all but current level
@@ -228,6 +255,11 @@ class SharedLinkSection extends React.Component<Props, State> {
         // if we cannot set the download value, we remove this option from the dropdown
         if (!isDownloadSettingAvailable) {
             allowedPermissionLevels = allowedPermissionLevels.filter(level => level !== CAN_VIEW_DOWNLOAD);
+        }
+
+        // if the user cannot edit, we remove this option from the dropdown
+        if (!isEditSettingAvailable || !isAllowEditSharedLinkForFileEnabled) {
+            allowedPermissionLevels = allowedPermissionLevels.filter(level => level !== CAN_EDIT);
         }
 
         return (
@@ -314,7 +346,28 @@ class SharedLinkSection extends React.Component<Props, State> {
                         <span className="security-indicator-icon-globe">
                             <IconGlobe height={12} width={12} />
                         </span>
-                        <FormattedMessage {...messages.sharedLinkPubliclyAvailable} />
+                        {permissionLevel === CAN_EDIT ? (
+                            <FormattedMessage
+                                data-testid="shared-link-editable-publicly-available-message"
+                                {...messages.sharedLinkEditablePubliclyAvailable}
+                            />
+                        ) : (
+                            <FormattedMessage
+                                data-testid="shared-link-publicly-available-message"
+                                {...messages.sharedLinkPubliclyAvailable}
+                            />
+                        )}
+                    </div>
+                )}
+                {accessLevel === ANYONE_IN_COMPANY && isPermissionElevatedToEdit && (
+                    <div className="security-indicator-note">
+                        <span className="security-indicator-icon-globe">
+                            <IconGlobe height={12} width={12} />
+                        </span>
+                        <FormattedMessage
+                            data-testid="shared-link-elevated-editable-company-available-message"
+                            {...messages.sharedLinkElevatedEditableCompanyAvailable}
+                        />
                     </div>
                 )}
             </>
