@@ -5,6 +5,7 @@
  */
 import * as vars from '../../styles/variables';
 import IconFileAudio from '../../icon/content/FileAudio32';
+import IconFileBoxCanvas from '../../icon/content/FileCanvas32';
 import IconFileBoxNote from '../../icon/content/FileBoxNote32';
 import IconFileCode from '../../icon/content/FileCode32';
 import IconFileDefault from '../../icon/content/FileDefault32';
@@ -29,6 +30,8 @@ import IconFileThreeD from '../../icon/content/FileThreeD32';
 import IconFileVector from '../../icon/content/FileVector32';
 import IconFileVideo from '../../icon/content/FileVideo32';
 import IconFileWord from '../../icon/content/FileWord32';
+import IconFileXbd from '../../icon/content/FileXbd32';
+import IconFileXdw from '../../icon/content/FileXdw32';
 import IconFileZip from '../../icon/content/FileZip32';
 import { SVGProps } from '../accessible-svg/AccessibleSVG';
 
@@ -57,6 +60,7 @@ register(IconFileAudio, vars.bdlPurpleRain, [
     'wav',
     'wma',
 ]);
+register(IconFileBoxCanvas, vars.bdlOrange, ['boxcanvas']);
 register(IconFileBoxNote, vars.bdlGray20, ['boxnote']);
 register(IconFileCode, '#E33D55', [
     'as',
@@ -136,7 +140,7 @@ register(IconFileImage, '#3FB87F', [
     'tif',
     'tiff',
 ]);
-register(IconFileIndesign, '#FF57A1', ['indb', 'indd', 'indl', 'indt', 'idml', 'inx', 'pmd']);
+register(IconFileIndesign, '#FF57A1', ['idml', 'indd', 'indt', 'inx']);
 register(IconFileKeynote, '#007AFF', ['key']);
 register(IconFileNumbers, '#00A650', ['numbers']);
 register(IconFilePDF, '#D0021B', ['pdf']);
@@ -168,6 +172,8 @@ register(IconFileVideo, '#009AED', [
     'wmv',
 ]);
 register(IconFileWord, '#185ABD', ['doc', 'docx']);
+register(IconFileXbd, '#00838D', ['xbd']);
+register(IconFileXdw, '#00838D', ['xdw']);
 register(IconFileZip, vars.bdlGray20, ['tgz', 'zip']);
 
 export const getColor = (extension?: string): Config['color'] => {

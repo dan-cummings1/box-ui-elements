@@ -8,6 +8,9 @@ const language = process.env.LANGUAGE;
 const webpackConfig = Array.isArray(webpackConf) ? webpackConf[0] : webpackConf;
 
 module.exports = async ({ config }) => {
+    config.watchOptions = {
+        ignored: [/node_modules/, /__tests__/],
+    };
     config.plugins = [...webpackConfig.plugins, ...config.plugins];
     config.resolve.extensions = [...config.resolve.extensions, ...webpackConfig.resolve.extensions];
     config.resolve.alias = {
@@ -21,8 +24,8 @@ module.exports = async ({ config }) => {
             use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
         },
         {
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
+            test: /\.(ts|tsx)?$/,
+            exclude: /node_modules\/(?!@box\/cldr-data)/,
             use: [{ loader: 'babel-loader' }, { loader: 'react-docgen-typescript-loader' }],
         },
         {

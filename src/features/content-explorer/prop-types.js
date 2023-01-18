@@ -4,10 +4,11 @@ import ContentExplorerModes from './modes';
 import ItemTypes from './item-types';
 
 const ContentExplorerModePropType = PropTypes.oneOf([
-    ContentExplorerModes.SELECT_FILE,
-    ContentExplorerModes.SELECT_FOLDER,
+    ContentExplorerModes.COPY,
     ContentExplorerModes.MOVE_COPY,
     ContentExplorerModes.MULTI_SELECT,
+    ContentExplorerModes.SELECT_FILE,
+    ContentExplorerModes.SELECT_FOLDER,
 ]);
 
 const FolderPropType = PropTypes.shape({
@@ -42,7 +43,15 @@ const ItemsPropType = PropTypes.arrayOf(ItemOrPlaceholderPropType);
 
 const ItemsMapPropType = PropTypes.objectOf(ItemPropType);
 
+const BreadcrumbPropType = PropTypes.shape({
+    className: PropTypes.string,
+    itemsBeforeOverflow: PropTypes.number,
+    overflowIcon: PropTypes.node,
+    threshold: PropTypes.number,
+});
+
 export {
+    BreadcrumbPropType,
     ContentExplorerModePropType,
     FolderPropType,
     FoldersPathPropType,

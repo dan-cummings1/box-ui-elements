@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { ITEM_TYPE_WEBLINK, ITEM_TYPE_FOLDER } from '../../../common/constants';
-import { JUSTIFICATION_CHECKPOINT_EXTERNAL_COLLAB } from '../constants';
+
+import { CAN_EDIT, JUSTIFICATION_CHECKPOINT_EXTERNAL_COLLAB } from '../constants';
 
 import { UnifiedShareFormBase as UnifiedShareForm } from '../UnifiedShareForm';
 
@@ -19,17 +20,14 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
     };
     const defaultContacts = [
         {
-            value: 'x@example.com',
-            email: 'x@example.com',
-            id: '12345',
-            isExternalUser: false,
+            id: 12345,
             name: 'X User',
             type: 'group',
         },
         {
             value: 'y@example.com',
             email: 'y@example.com',
-            id: '23456',
+            id: 23456,
             isExternalUser: true,
             name: 'Y User',
             type: 'user',
@@ -37,12 +35,13 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
         {
             value: 'z@example.com',
             email: 'z@example.com',
-            id: '34567',
+            id: 34567,
             isExternalUser: true,
             name: 'Z User',
             type: 'user',
         },
     ];
+    const defaultUserContacts = defaultContacts.filter(({ type }) => type === 'user');
     const testPermission = {
         text: 'Editor',
         value: 'Editor',
@@ -68,6 +67,7 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                 intl={intl}
                 inviteePermissions={[testPermission]}
                 item={defaultItem}
+                restrictedGroups={[]}
                 sharedLink={{}}
                 trackingProps={props.trackingProps || defaultTrackingProps}
                 {...props}
@@ -211,10 +211,18 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                 isFetching: false,
                 showUpgradeOptions: true,
             });
-            wrapper.setState({
-                isInviteSectionExpanded: true,
+            expect(wrapper.exists('UpgradeBadge')).toBe(true);
+        });
+
+        test('should render correct upgrade inline notice when showUpgradeInlineNotice and showUpgradeOptions is enabled', () => {
+            const wrapper = getWrapper({
+                canInvite: true,
+                isFetching: false,
+                showUpgradeInlineNotice: true,
+                showUpgradeOptions: true,
             });
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.exists('UpgradeBadge')).toBe(false);
+            expect(wrapper.exists('InlineNotice')).toBe(true);
         });
 
         test('should render a default component with correct Focus element and props when focusSharedLinkOnLoad is enabled', () => {
@@ -391,7 +399,7 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
             const justificationReason = { value: '123', displayText: 'My Reason' };
             const wrapper = getWrapper({
                 isCollabRestrictionJustificationAllowed: true,
-                restrictedExternalCollabEmails: restrictedEmails,
+                restrictedCollabEmails: restrictedEmails,
                 sendInvites,
             });
 
@@ -401,7 +409,7 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                 groupIDs: ['234'],
                 justificationReason,
                 message: 'message',
-                restrictedExternalEmails: ['restricted@example.com'],
+                restrictedEmails: ['restricted@example.com'],
             });
 
             expect(sendInvites).toHaveBeenCalledWith(
@@ -413,6 +421,34 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                     },
                 }),
             );
+        });
+    });
+
+    describe('handleSendSharedLink()', () => {
+        test('should call onSendClick  and sendSharedLink with the correct params', async () => {
+            const data = {
+                emails: ['dvader@example.com', 'fbar@example.com'],
+                groupIDs: ['eng@example.com', 'product@example.com'],
+            };
+            const onSendClick = jest.fn();
+            const sendSharedLink = jest.fn();
+            const sharedLink = { permissionLevel: CAN_EDIT };
+            const trackingProps = {
+                ...defaultTrackingProps,
+                sharedLinkEmailTracking: { onSendClick },
+            };
+            const expectedParams = {
+                ...data,
+                numsOfRecipients: 2,
+                numOfRecipientGroups: 2,
+                permissionLevel: CAN_EDIT,
+            };
+            const wrapper = getWrapper({ sendSharedLink, sharedLink, trackingProps });
+
+            await wrapper.instance().handleSendSharedLink(data);
+
+            expect(onSendClick).toBeCalledWith(expectedParams);
+            expect(sendSharedLink).toBeCalledWith(data);
         });
     });
 
@@ -592,39 +628,63 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
         });
     });
 
-    describe('componendDidUpdate()', () => {
+    describe('componentDidUpdate()', () => {
         test.each`
-            isCollabRestrictionJustificationAllowed | restrictedExternalCollabEmails               | shouldFetch | actionDescription | conditionDescription
-            ${false}                                | ${[]}                                        | ${false}    | ${'not fetch'}    | ${'collab restrictions do not change'}
-            ${false}                                | ${defaultContacts.map(({ email }) => email)} | ${false}    | ${'not fetch'}    | ${'collab restrictions change but justification is not allowed'}
-            ${true}                                 | ${['unmatched_email@example.com']}           | ${false}    | ${'not fetch'}    | ${'collab restrictions change but no restricted collabs are present'}
-            ${true}                                 | ${defaultContacts.map(({ email }) => email)} | ${true}     | ${'fetch'}        | ${'collab restrictions change, justification is allowed and restricted collabs are present'}
+            isCollabRestrictionJustificationAllowed | restrictedCollabEmails                           | restrictedGroups | conditionDescription
+            ${false}                                | ${[]}                                            | ${[]}            | ${'collab restrictions do not change'}
+            ${false}                                | ${defaultUserContacts.map(({ email }) => email)} | ${[]}            | ${'collab restrictions change but justification is not allowed'}
+            ${true}                                 | ${['unmatched_email@example.com']}               | ${[]}            | ${'collab restrictions change but no restricted collabs are present'}
         `(
-            'should $actionDescription justification reasons when $conditionDescription',
-            ({ isCollabRestrictionJustificationAllowed, restrictedExternalCollabEmails, shouldFetch }) => {
+            'should not fetch justification reasons when $conditionDescription',
+            ({ isCollabRestrictionJustificationAllowed, restrictedCollabEmails, restrictedGroups }) => {
                 const getJustificationReasons = jest.fn().mockResolvedValue({});
                 const wrapper = getWrapper({
                     getJustificationReasons,
                     isCollabRestrictionJustificationAllowed: false,
                     item: defaultItem,
-                    restrictedExternalCollabEmails: [],
+                    restrictedCollabEmails: [],
+                    restrictedGroups: [],
                 });
 
                 wrapper.instance().updateInviteCollabsContacts(defaultContacts);
                 wrapper.setProps({
                     isCollabRestrictionJustificationAllowed,
-                    restrictedExternalCollabEmails,
+                    restrictedCollabEmails,
+                    restrictedGroups,
                 });
 
-                if (shouldFetch) {
-                    expect(getJustificationReasons).toHaveBeenCalledTimes(1);
-                    expect(getJustificationReasons).toHaveBeenCalledWith(
-                        defaultItem.typedID,
-                        JUSTIFICATION_CHECKPOINT_EXTERNAL_COLLAB,
-                    );
-                } else {
-                    expect(getJustificationReasons).toHaveBeenCalledTimes(0);
-                }
+                expect(getJustificationReasons).toHaveBeenCalledTimes(0);
+            },
+        );
+
+        test.each`
+            isCollabRestrictionJustificationAllowed | restrictedCollabEmails                           | restrictedGroups | conditionDescription
+            ${true}                                 | ${defaultUserContacts.map(({ email }) => email)} | ${[]}            | ${'collab restrictions change, justification is allowed and restricted collabs are present'}
+            ${true}                                 | ${[]}                                            | ${[12345]}       | ${'collab group restrictions change, justification is allowed and restricted collabs are present'}
+        `(
+            'should fetch justification reasons when $conditionDescription',
+            ({ isCollabRestrictionJustificationAllowed, restrictedCollabEmails, restrictedGroups }) => {
+                const getJustificationReasons = jest.fn().mockResolvedValue({});
+                const wrapper = getWrapper({
+                    getJustificationReasons,
+                    isCollabRestrictionJustificationAllowed: false,
+                    item: defaultItem,
+                    restrictedCollabEmails: [],
+                    restrictedGroups: [],
+                });
+
+                wrapper.instance().updateInviteCollabsContacts(defaultContacts);
+                wrapper.setProps({
+                    isCollabRestrictionJustificationAllowed,
+                    restrictedCollabEmails,
+                    restrictedGroups,
+                });
+
+                expect(getJustificationReasons).toHaveBeenCalledTimes(1);
+                expect(getJustificationReasons).toHaveBeenCalledWith(
+                    defaultItem.typedID,
+                    JUSTIFICATION_CHECKPOINT_EXTERNAL_COLLAB,
+                );
             },
         );
     });
@@ -640,7 +700,7 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
             displayText: title,
         }));
 
-        test('should fetch justification reasons, pass them on to external collab email form and store classification label id', async () => {
+        test('should fetch justification reasons, pass them on to collab email form and store classification label id', async () => {
             const classificationLabelId = '123';
             const getJustificationReasons = jest.fn().mockResolvedValue({
                 classificationLabelId,
@@ -650,15 +710,15 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                 getJustificationReasons,
                 isCollabRestrictionJustificationAllowed: false,
                 item: defaultItem,
-                restrictedExternalCollabEmails: [],
+                restrictedCollabEmails: [],
             });
 
             await wrapper.instance().fetchJustificationReasons(defaultItem, JUSTIFICATION_CHECKPOINT_EXTERNAL_COLLAB);
 
-            const externalCollabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
-            expect(externalCollabEmailForm).toHaveLength(1);
-            expect(externalCollabEmailForm.props().justificationReasons).toEqual(justificationReasonOptions);
-            expect(externalCollabEmailForm.props().isFetchingJustificationReasons).toBe(false);
+            const collabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
+            expect(collabEmailForm).toHaveLength(1);
+            expect(collabEmailForm.props().justificationReasons).toEqual(justificationReasonOptions);
+            expect(collabEmailForm.props().isFetchingJustificationReasons).toBe(false);
             expect(wrapper.state().classificationLabelId).toBe(classificationLabelId);
             expect(getJustificationReasons).toHaveBeenCalledTimes(1);
             expect(getJustificationReasons).toHaveBeenCalledWith(
@@ -673,7 +733,7 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
                 getJustificationReasons,
                 isCollabRestrictionJustificationAllowed: false,
                 item: defaultItem,
-                restrictedExternalCollabEmails: [],
+                restrictedCollabEmails: [],
             });
 
             wrapper.setState({ isFetchingJustificationReasons: true });
@@ -695,51 +755,82 @@ describe('features/unified-share-modal/UnifiedShareForm', () => {
 
             wrapper.instance().updateInviteCollabsContacts(defaultContacts);
 
-            const externalCollabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
-            expect(externalCollabEmailForm).toHaveLength(1);
-            expect(externalCollabEmailForm.props().selectedContacts).toEqual(defaultContacts);
+            const collabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
+            expect(collabEmailForm).toHaveLength(1);
+            expect(collabEmailForm.props().selectedContacts).toEqual(defaultContacts);
             expect(setUpdatedContacts).toHaveBeenCalledTimes(1);
             expect(setUpdatedContacts).toHaveBeenCalledWith(defaultContacts);
         });
 
-        test('should call onRemoveAllRestrictedExternalCollabs when update results in all restricted external contacts being removed', () => {
-            const onRemoveAllRestrictedExternalCollabs = jest.fn();
-            const restrictedExternalCollabEmails = ['x@example.com', 'y@example.com'];
+        test('should call onRemoveAllRestrictedCollabs when update results in all restricted contacts being removed', () => {
+            const onRemoveAllRestrictedCollabs = jest.fn();
+            const restrictedCollabEmails = ['y@example.com', 'z@example.com'];
+            const contactsMinusOneRestriction = defaultContacts.filter(value => value !== 'y@example.com');
+            const contactsMinusAllRestrictions = defaultContacts.filter(value =>
+                restrictedCollabEmails.includes(value),
+            );
             const wrapper = getWrapper({
-                onRemoveAllRestrictedExternalCollabs,
-                restrictedExternalCollabEmails,
+                onRemoveAllRestrictedCollabs,
+                restrictedCollabEmails,
             });
 
+            // Adding new contacts, no call expected
             wrapper.instance().updateInviteCollabsContacts(defaultContacts);
-            expect(onRemoveAllRestrictedExternalCollabs).toHaveBeenCalledTimes(0);
-            // Minus first contact, which is restricted
-            wrapper.instance().updateInviteCollabsContacts(defaultContacts.slice(1));
-            expect(onRemoveAllRestrictedExternalCollabs).toHaveBeenCalledTimes(0);
-            // Minus two first contacts, which are all the restricted ones
-            wrapper.instance().updateInviteCollabsContacts(defaultContacts.slice(2));
-            expect(onRemoveAllRestrictedExternalCollabs).toHaveBeenCalledTimes(1);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(0);
+            // Minus one restricted contact
+            wrapper.instance().updateInviteCollabsContacts(contactsMinusOneRestriction);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(0);
+            // Minus all restricted contacts
+            wrapper.instance().updateInviteCollabsContacts(contactsMinusAllRestrictions);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(1);
+        });
+
+        test('should call onRemoveAllRestrictedCollabs when update results in all restricted contacts including groups being removed', () => {
+            const onRemoveAllRestrictedCollabs = jest.fn();
+            const restrictedCollabEmails = ['y@example.com'];
+            const restrictedGroups = ['12345'];
+            const contactsMinusOneRestriction = defaultContacts.filter(value => value !== 'y@example.com');
+            const contactsMinusAllRestrictions = defaultContacts.filter(
+                (id, value) => restrictedGroups.includes(id) || restrictedCollabEmails.includes(value),
+            );
+            const wrapper = getWrapper({
+                onRemoveAllRestrictedCollabs,
+                restrictedCollabEmails,
+            });
+
+            // Adding new contacts, no call expected
+            wrapper.instance().updateInviteCollabsContacts(defaultContacts);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(0);
+            // Minus one restricted contact, group still remains
+            wrapper.instance().updateInviteCollabsContacts(contactsMinusOneRestriction);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(0);
+            // Minus all restricted contacts, including the group
+            wrapper.instance().updateInviteCollabsContacts(contactsMinusAllRestrictions);
+            expect(onRemoveAllRestrictedCollabs).toHaveBeenCalledTimes(1);
         });
     });
 
-    describe('shouldRequireExternalCollabJustification()', () => {
+    describe('shouldRequireCollabJustification()', () => {
         test.each`
-            isCollabRestrictionJustificationAllowed | restrictedExternalCollabEmails               | expectedResult
-            ${false}                                | ${[]}                                        | ${false}
-            ${true}                                 | ${[]}                                        | ${false}
-            ${true}                                 | ${[defaultContacts[0].value]}                | ${true}
-            ${true}                                 | ${defaultContacts.map(({ value }) => value)} | ${true}
+            isCollabRestrictionJustificationAllowed | restrictedCollabEmails                           | restrictedGroups | expectedResult
+            ${false}                                | ${[]}                                            | ${[]}            | ${false}
+            ${true}                                 | ${[]}                                            | ${[]}            | ${false}
+            ${true}                                 | ${[defaultUserContacts[0].value]}                | ${[]}            | ${true}
+            ${true}                                 | ${defaultUserContacts.map(({ value }) => value)} | ${[]}            | ${true}
+            ${true}                                 | ${[]}                                            | ${[12345]}       | ${true}
         `(
-            'should return $expectedResult when isCollabRestrictionJustificationAllowed is $isCollabRestrictionJustificationAllowed and restrictedExternalCollabEmails is $restrictedExternalCollabEmails',
-            ({ isCollabRestrictionJustificationAllowed, restrictedExternalCollabEmails, expectedResult }) => {
+            'should return $expectedResult when isCollabRestrictionJustificationAllowed is $isCollabRestrictionJustificationAllowed, restrictedCollabEmails is $restrictedCollabEmails and restrictedGroups is $restrictedGroups',
+            ({ isCollabRestrictionJustificationAllowed, restrictedCollabEmails, restrictedGroups, expectedResult }) => {
                 const wrapper = getWrapper({
                     isCollabRestrictionJustificationAllowed,
                     item: defaultItem,
-                    restrictedExternalCollabEmails,
+                    restrictedCollabEmails,
+                    restrictedGroups,
                 });
 
                 wrapper.instance().updateInviteCollabsContacts(defaultContacts);
-                const externalCollabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
-                expect(externalCollabEmailForm.props().isRestrictionJustificationEnabled).toBe(expectedResult);
+                const collabEmailForm = wrapper.find('[data-testid="invite-collaborator-container"] EmailForm');
+                expect(collabEmailForm.props().isRestrictionJustificationEnabled).toBe(expectedResult);
             },
         );
     });

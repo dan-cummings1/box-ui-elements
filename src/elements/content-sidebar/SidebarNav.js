@@ -54,12 +54,7 @@ const SidebarNav = ({
     isOpen,
     onNavigate,
 }: Props) => {
-    const {
-        enabled: hasBoxSign,
-        onClick: onBoxSignClick,
-        status: boxSignStatus,
-        targetingApi: boxSignTargetingApi,
-    } = useFeatureConfig('boxSign');
+    const { enabled: hasBoxSign } = useFeatureConfig('boxSign');
 
     return (
         <div className="bcs-SidebarNav" aria-label={intl.formatMessage(messages.sidebarNavLabel)}>
@@ -107,14 +102,9 @@ const SidebarNav = ({
                     )}
                 </SidebarNavTablist>
 
-                {hasBoxSign && onBoxSignClick && (
+                {hasBoxSign && (
                     <div className="bcs-SidebarNav-secondary">
-                        <SidebarNavSign
-                            data-resin-target={SIDEBAR_NAV_TARGETS.SIGN}
-                            onClick={() => onBoxSignClick({ fileId })}
-                            status={boxSignStatus}
-                            targetingApi={boxSignTargetingApi}
-                        />
+                        <SidebarNavSign />
                     </div>
                 )}
 

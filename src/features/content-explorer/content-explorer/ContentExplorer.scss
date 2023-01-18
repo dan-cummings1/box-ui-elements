@@ -1,4 +1,5 @@
 @import '../../../styles/variables';
+@import '../../../styles/mixins/buttons';
 
 .content-explorer {
     .content-explorer-search-new-folder-container {
@@ -66,7 +67,7 @@
 
         .content-explorer-select-all-checkbox {
             float: right;
-            margin-right: -20 * $bdl-grid-unit;
+            margin-right: -21 * $bdl-grid-unit;
         }
     }
 
@@ -86,6 +87,10 @@
         padding-top: 20px;
         border-top: 1px solid $bdl-gray-10;
 
+        .btn {
+            @include bdl-Button--large;
+        }
+
         .status-message {
             position: absolute;
             left: 0;
@@ -95,5 +100,20 @@
         .content-explorer-copy-button {
             margin-right: 0;
         }
+    }
+}
+
+.content-explorer .modal-actions .status-message {
+    margin-right: auto;
+}
+
+.bdl-ContentExplorerModal--responsive .modal-content,
+.bdl-ContentExplorer--responsive {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    .content-explorer-breadcrumbs-up-button {
+        display: none;
     }
 }

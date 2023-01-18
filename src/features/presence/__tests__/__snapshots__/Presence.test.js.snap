@@ -8,6 +8,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   closeOnWindowBlur={false}
   constrainToScrollParent={true}
   constrainToWindow={false}
+  isResponsive={false}
   isVisibleByDefault={false}
   onClose={[Function]}
   onOpen={[Function]}
@@ -17,6 +18,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   position="bottom-left"
 >
   <ForwardRef(PresenceAvatarList)
+    aria-label="Recent Activity"
     className="presence-avatar-container"
     collaborators={
       Array [
@@ -130,6 +132,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   closeOnWindowBlur={false}
   constrainToScrollParent={true}
   constrainToWindow={false}
+  isResponsive={false}
   isVisibleByDefault={false}
   onClose={[Function]}
   onOpen={[Function]}
@@ -139,6 +142,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   position="bottom-left"
 >
   <ForwardRef(PresenceAvatarList)
+    aria-label="Recent Activity"
     className="presence-avatar-container"
     collaborators={
       Array [
@@ -252,6 +256,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   closeOnWindowBlur={false}
   constrainToScrollParent={true}
   constrainToWindow={false}
+  isResponsive={false}
   isVisibleByDefault={false}
   onClose={[Function]}
   onOpen={[Function]}
@@ -261,6 +266,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   position="bottom-left"
 >
   <ForwardRef(PresenceAvatarList)
+    aria-label="Recent Activity"
     className="presence-avatar-container"
     collaborators={Array []}
     hideTooltips={false}
@@ -297,6 +303,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   closeOnWindowBlur={false}
   constrainToScrollParent={true}
   constrainToWindow={false}
+  isResponsive={false}
   isVisibleByDefault={false}
   onClose={[Function]}
   onOpen={[Function]}
@@ -306,6 +313,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   position="bottom-left"
 >
   <ForwardRef(PresenceAvatarList)
+    aria-label="Recent Activity"
     className="presence-avatar-container"
     collaborators={
       Array [
@@ -428,6 +436,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   closeOnWindowBlur={false}
   constrainToScrollParent={true}
   constrainToWindow={false}
+  isResponsive={false}
   isVisibleByDefault={true}
   onClose={[Function]}
   onOpen={[Function]}
@@ -437,6 +446,7 @@ exports[`features/presence/Presence render() Tests for presence autofly - GROWTH
   position="bottom-left"
 >
   <ForwardRef(PresenceAvatarList)
+    aria-label="Recent Activity"
     className="presence-avatar-container"
     collaborators={
       Array [

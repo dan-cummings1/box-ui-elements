@@ -19,6 +19,15 @@ class ContentExplorer extends Component {
     static propTypes = {
         /** Props for the action buttons container */
         actionButtonsProps: PropTypes.object,
+        /**
+         * Extra columns displayed in the folders table after folder name column
+         * Each column has to be a Column element
+         */
+        additionalColumns: PropTypes.arrayOf(PropTypes.element),
+        /**  Allow users to choose no selections in MULTI_SELECT mode, defaults to false  */
+        isNoSelectionAllowed: PropTypes.bool,
+        /** Props for breadcrumbs */
+        breadcrumbProps: PropTypes.object,
         /** Props for the cancel button */
         cancelButtonProps: PropTypes.object,
         /** Props for the choose button */
@@ -37,6 +46,8 @@ class ContentExplorer extends Component {
         initialFoldersPath: FoldersPathPropType.isRequired,
         /** Initial items that will show up as selected */
         initialSelectedItems: PropTypes.object,
+        /** Whether to use the responsive version */
+        isResponsive: PropTypes.bool,
         /**
          * Called when the current folder changes
          *
@@ -113,6 +124,14 @@ class ContentExplorer extends Component {
         itemNameLinkRenderer: PropTypes.func,
         /** Used to render item buttons in the list. Overrides the default buttons. */
         itemButtonRenderer: PropTypes.func,
+        /** Height of an item row */
+        itemRowHeight: PropTypes.number,
+        /** Used to render the row element for items on the list. Allows row customizations such as adding tooltips, etc. */
+        itemRowRenderer: PropTypes.func,
+        /** Height of the item list header, defaults to 0, which makes header not visible */
+        listHeaderHeight: PropTypes.number,
+        /** Used to render the header row on the item list */
+        listHeaderRenderer: PropTypes.func,
         /** Width of the item list */
         listWidth: PropTypes.number.isRequired,
         /** Height of the item list */
@@ -309,6 +328,10 @@ class ContentExplorer extends Component {
         const { items } = this.props;
         const item = items[index];
 
+        if (item.isDisabled || item.isLoading) {
+            return;
+        }
+
         if (item.type !== ItemTypes.FOLDER) {
             return;
         }
@@ -379,6 +402,9 @@ class ContentExplorer extends Component {
     render() {
         const {
             actionButtonsProps,
+            additionalColumns,
+            isNoSelectionAllowed = false,
+            breadcrumbProps,
             cancelButtonProps,
             chooseButtonProps,
             chooseButtonText,
@@ -397,6 +423,7 @@ class ContentExplorer extends Component {
             isCopyButtonLoading,
             isCreateNewFolderAllowed,
             isMoveButtonLoading,
+            isResponsive = false,
             isSelectAllAllowed,
             items,
             numItemsPerPage,
@@ -405,6 +432,10 @@ class ContentExplorer extends Component {
             itemIconRenderer,
             itemNameLinkRenderer,
             itemButtonRenderer,
+            itemRowHeight,
+            itemRowRenderer,
+            listHeaderHeight,
+            listHeaderRenderer,
             listWidth,
             listHeight,
             searchInputProps,
@@ -419,6 +450,7 @@ class ContentExplorer extends Component {
             'onSelectItem',
             'onSearchSubmit',
             'onExitSearch',
+            'initialSelectedItems',
         ]);
 
         const selectedItemsIds = Object.keys(selectedItems);
@@ -427,10 +459,10 @@ class ContentExplorer extends Component {
         // ContentExplorerActionButtons instead. There's a lot of implicit knowledge
         // of what the action buttons are and what they should be doing.
         if (contentExplorerMode === ContentExplorerModes.MULTI_SELECT) {
-            // NOTE:o nly expecting to have 1 (choose) button so as long as something
+            // NOTE: only expecting to have 1 (choose) button so as long as something
             // is selected and that item's isActionDisabled is false, we enable the action button
             areActionButtonsDisabled =
-                selectedItemsIds.length === 0 ||
+                (selectedItemsIds.length === 0 && !isNoSelectionAllowed) ||
                 (selectedItemsIds.length === 1 && selectedItems[selectedItemsIds[0]].isActionDisabled);
         } else if (isViewingSearchResults || contentExplorerMode === ContentExplorerModes.SELECT_FILE) {
             // Buttons are only enabled when an item is selected
@@ -449,7 +481,9 @@ class ContentExplorer extends Component {
         return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
             <div
-                className={classNames('content-explorer', className)}
+                className={classNames('content-explorer', className, {
+                    'bdl-ContentExplorer--responsive': isResponsive,
+                })}
                 data-testid="content-explorer"
                 onClick={this.handleContentExplorerClick}
                 ref={ref => {
@@ -458,6 +492,7 @@ class ContentExplorer extends Component {
                 {...contentExplorerProps}
             >
                 <ContentExplorerHeaderActions
+                    breadcrumbProps={breadcrumbProps}
                     contentExplorerMode={contentExplorerMode}
                     customInput={customInput}
                     foldersPath={foldersPath}
@@ -480,12 +515,17 @@ class ContentExplorer extends Component {
                     />
                 )}
                 <ItemList
+                    additionalColumns={additionalColumns}
                     contentExplorerMode={contentExplorerMode}
+                    headerHeight={listHeaderHeight}
+                    headerRenderer={listHeaderRenderer}
                     height={listHeight}
+                    isResponsive={isResponsive}
                     itemButtonRenderer={itemButtonRenderer}
                     itemIconRenderer={itemIconRenderer}
                     itemNameLinkRenderer={itemNameLinkRenderer}
                     items={items}
+                    itemRowRenderer={itemRowRenderer}
                     noItemsRenderer={this.renderItemListEmptyState}
                     numItemsPerPage={numItemsPerPage}
                     numTotalItems={numTotalItems}
@@ -493,6 +533,7 @@ class ContentExplorer extends Component {
                     onItemDoubleClick={this.handleItemDoubleClick}
                     onItemNameClick={this.handleItemNameClick}
                     onLoadMoreItems={onLoadMoreItems}
+                    rowHeight={itemRowHeight}
                     selectedItems={selectedItems}
                     width={listWidth}
                 />
@@ -507,12 +548,14 @@ class ContentExplorer extends Component {
                     isChooseButtonLoading={isChooseButtonLoading}
                     isCopyButtonLoading={isCopyButtonLoading}
                     isMoveButtonLoading={isMoveButtonLoading}
+                    isResponsive={isResponsive}
                     onCancelClick={onCancelButtonClick}
                     onChooseClick={onChooseItems}
                     onCopyClick={onCopyItem}
                     onSelectedClick={onSelectedClick}
                     onMoveClick={onMoveItem}
                     selectedItems={selectedItems}
+                    isNoSelectionAllowed={isNoSelectionAllowed}
                 />
             </div>
         );

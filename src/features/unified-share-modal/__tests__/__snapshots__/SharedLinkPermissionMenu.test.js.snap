@@ -4,10 +4,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk is-disabled bdl-is-disabled"
+    data-testid="usm-share-permissions-toggle"
     disabled={true}
   >
     <MenuToggle>
@@ -19,6 +23,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -27,7 +32,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -41,7 +48,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -55,7 +64,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"
@@ -72,10 +83,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk"
+    data-testid="usm-share-permissions-toggle"
     disabled={false}
   >
     <MenuToggle>
@@ -87,6 +102,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -95,7 +111,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -109,7 +127,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -123,7 +143,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"
@@ -140,10 +162,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk is-disabled bdl-is-disabled"
+    data-testid="usm-share-permissions-toggle"
     disabled={true}
   >
     <MenuToggle>
@@ -155,6 +181,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -163,7 +190,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -177,7 +206,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -191,7 +222,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"
@@ -208,10 +241,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk"
+    data-testid="usm-share-permissions-toggle"
     disabled={false}
   >
     <MenuToggle>
@@ -223,6 +260,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -231,7 +269,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -245,7 +285,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -259,7 +301,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"
@@ -276,10 +320,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk is-disabled bdl-is-disabled"
+    data-testid="usm-share-permissions-toggle"
     disabled={true}
   >
     <MenuToggle>
@@ -291,6 +339,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -299,7 +348,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -313,7 +364,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -327,7 +380,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"
@@ -344,10 +399,14 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
 <DropdownMenu
   constrainToScrollParent={false}
   constrainToWindow={true}
+  isResponsive={false}
   isRightAligned={false}
+  onMenuClose={[Function]}
+  onMenuOpen={[Function]}
 >
   <PlainButton
     className="lnk"
+    data-testid="usm-share-permissions-toggle"
     disabled={false}
   >
     <MenuToggle>
@@ -359,6 +418,7 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
   </PlainButton>
   <Menu
     className="ums-share-permissions-menu"
+    data-testid="usm-share-permissions-menu"
     isHidden={false}
     isSubmenu={false}
   >
@@ -367,7 +427,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canEdit"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can edit"
@@ -381,7 +443,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewDownload"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view and download"
@@ -395,7 +459,9 @@ exports[`features/unified-share-modal/SharedLinkPermissionMenu render() it shoul
       key="canViewOnly"
       onClick={[Function]}
     >
-      <div>
+      <div
+        className="ums-share-permissions-menu-item"
+      >
         <span>
           <FormattedMessage
             defaultMessage="Can view only"

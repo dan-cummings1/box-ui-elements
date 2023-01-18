@@ -128,7 +128,7 @@ describe('components/date-picker/DatePicker', () => {
         const wrapper = mount(<DatePicker name="dateinput" label="Date" placeholder="a date" value={new Date()} />);
 
         expect(wrapper.find('PlainButton.date-picker-clear-btn').length).toEqual(1);
-        expect(wrapper.find('IconClear').length).toEqual(1);
+        expect(wrapper.find('ClearBadge16').length).toEqual(1);
     });
 
     test('should clear datepicker and call onChange() prop when clear button is clicked', () => {
@@ -155,7 +155,49 @@ describe('components/date-picker/DatePicker', () => {
             <DatePicker name="dateinput" isClearable={false} label="Date" placeholder="a date" value={new Date()} />,
         );
 
-        expect(wrapper.find('IconClear').length).toEqual(0);
+        expect(wrapper.find('.date-picker-clear-btn').length).toEqual(0);
+        expect(wrapper.find('ClearBadge16').length).toEqual(0);
+    });
+
+    test.each`
+        maxDate                            | minDate                            | maxAttr         | minAttr
+        ${new Date('2022-12-31T00:00:00')} | ${new Date('2022-01-01T00:00:00')} | ${'2022-12-31'} | ${'2022-01-01'}
+        ${null}                            | ${null}                            | ${'9999-12-31'} | ${'0001-01-01'}
+    `(
+        'should pass { max: $maxAttr, min: $minAttr } attributes to date picker input',
+        ({ maxDate, minDate, maxAttr, minAttr }) => {
+            const wrapper = getWrapper({
+                isAccessible: true,
+                maxDate,
+                minDate,
+            });
+
+            const dateInput = wrapper.find('.date-picker-input');
+            expect(dateInput.prop('max')).toEqual(maxAttr);
+            expect(dateInput.prop('min')).toEqual(minAttr);
+        },
+    );
+
+    test('should show alert icon when date value is after maximum date', () => {
+        const wrapper = getWrapper({
+            isAccessible: true,
+            maxDate: new Date('2021-12-31T00:00:00'),
+        });
+
+        expect(wrapper.find('AlertBadge16').length).toEqual(0);
+        wrapper.find('.date-picker-input').simulate('change', { target: { value: '2022-01-01' } });
+        expect(wrapper.find('AlertBadge16').length).toEqual(1);
+    });
+
+    test('should show alert icon when date value is before minimum date', () => {
+        const wrapper = getWrapper({
+            isAccessible: true,
+            minDate: new Date('2022-01-01T00:00:00'),
+        });
+
+        expect(wrapper.find('AlertBadge16').length).toEqual(0);
+        wrapper.find('.date-picker-input').simulate('change', { target: { value: '2021-12-31' } });
+        expect(wrapper.find('AlertBadge16').length).toEqual(1);
     });
 
     test('should show tooltip when error exists', () => {
@@ -295,6 +337,22 @@ describe('components/date-picker/DatePicker', () => {
             const stopPropagationSpy = jest.fn();
             if (instance.datePicker) {
                 instance.datePicker.isVisible = jest.fn().mockReturnValue(false);
+            }
+            inputEl.simulate('keyDown', {
+                preventDefault: noop,
+                stopPropagation: stopPropagationSpy,
+                key: 'anything',
+            });
+            expect(stopPropagationSpy).not.toHaveBeenCalled();
+        });
+
+        test('should not stop propagation when isKeyboardInputAllowed is enabled', () => {
+            const wrapper = renderDatePicker({ isKeyboardInputAllowed: true });
+            const instance = wrapper.instance();
+            const inputEl = wrapper.find('input').at(0);
+            const stopPropagationSpy = jest.fn();
+            if (instance.datePicker) {
+                instance.datePicker.isVisible = jest.fn().mockReturnValue(true);
             }
             inputEl.simulate('keyDown', {
                 preventDefault: noop,

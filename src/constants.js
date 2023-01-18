@@ -35,6 +35,13 @@ export const TYPE_FOLDER: 'folder' = 'folder';
 export const TYPE_FILE: 'file' = 'file';
 export const TYPE_WEBLINK: 'web_link' = 'web_link';
 
+/* ----------------------- Feed Items Types ---------------------------- */
+export const FEED_ITEM_TYPE_APP_ACTIVITY: 'app_activity' = 'app_activity';
+export const FEED_ITEM_TYPE_ANNOTATION: 'annotation' = 'annotation';
+export const FEED_ITEM_TYPE_COMMENT: 'comment' = 'comment';
+export const FEED_ITEM_TYPE_TASK: 'task' = 'task';
+export const FEED_ITEM_TYPE_VERSION: 'file_version' = 'file_version';
+
 /* -------------------- Typed Prefix-------------------------- */
 export const TYPED_ID_FOLDER_PREFIX = 'folder_';
 export const TYPED_ID_FILE_PREFIX = 'file_';
@@ -156,6 +163,7 @@ export const PERMISSION_CAN_DOWNLOAD = 'can_download';
 export const PERMISSION_CAN_EDIT = 'can_edit';
 export const PERMISSION_CAN_PREVIEW = 'can_preview';
 export const PERMISSION_CAN_RENAME = 'can_rename';
+export const PERMISSION_CAN_RESOLVE = 'can_resolve';
 export const PERMISSION_CAN_SET_SHARE_ACCESS = 'can_set_share_access';
 export const PERMISSION_CAN_SHARE = 'can_share';
 export const PERMISSION_CAN_UPLOAD = 'can_upload';
@@ -169,7 +177,7 @@ export const DELIMITER_SLASH: 'slash' = 'slash';
 export const DELIMITER_CARET: 'caret' = 'caret';
 
 /* ---------------------- Defaults -------------------------- */
-export const DEFAULT_PREVIEW_VERSION = '2.72.0';
+export const DEFAULT_PREVIEW_VERSION = '2.81.0';
 export const DEFAULT_LOCALE = 'en-US';
 export const DEFAULT_PATH_STATIC = 'platform/elements';
 export const DEFAULT_PATH_STATIC_PREVIEW = 'platform/preview';
@@ -243,7 +251,9 @@ export const ERROR_CODE_FETCH_FILE_DUE_TO_POLICY = 'forbidden_by_policy';
 export const ERROR_CODE_FETCH_FOLDER = 'fetch_folder_error';
 export const ERROR_CODE_FETCH_WEBLINK = 'fetch_weblink_error';
 export const ERROR_CODE_FETCH_CLASSIFICATION = 'fetch_classification_error';
+export const ERROR_CODE_FETCH_COMMENT = 'fetch_comment_error';
 export const ERROR_CODE_FETCH_COMMENTS = 'fetch_comments_error';
+export const ERROR_CODE_FETCH_REPLIES = 'fetch_replies_error';
 export const ERROR_CODE_FETCH_VERSION = 'fetch_version_error';
 export const ERROR_CODE_FETCH_VERSIONS = 'fetch_versions_error';
 export const ERROR_CODE_FETCH_TASKS = 'fetch_tasks_error';
@@ -261,6 +271,7 @@ export const ERROR_CODE_FETCH_RECENTS = 'fetch_recents_error';
 export const ERROR_CODE_EXECUTE_INTEGRATION = 'execute_integrations_error';
 export const ERROR_CODE_CREATE_ANNOTATION = 'create_annotation_error';
 export const ERROR_CODE_CREATE_COMMENT = 'create_comment_error';
+export const ERROR_CODE_CREATE_REPLY = 'create_reply_error';
 export const ERROR_CODE_CREATE_TASK = 'create_task_error';
 export const ERROR_CODE_CREATE_TASK_LINK = 'create_task_link_error';
 export const ERROR_CODE_CREATE_TASK_ASSIGNMENT = 'create_task_assignment_error';
@@ -305,6 +316,7 @@ export const ORIGIN_METADATA_SIDEBAR: 'metadata_sidebar' = 'metadata_sidebar';
 export const ORIGIN_SKILLS_SIDEBAR: 'skills_sidebar' = 'skills_sidebar';
 export const ORIGIN_VERSIONS_SIDEBAR: 'versions_sidebar' = 'versions_sidebar';
 export const ORIGIN_PREVIEW: 'preview' = 'preview';
+export const ORIGIN_PREVIEW_SIDEBAR: 'preview_sidebar' = 'preview_sidebar';
 export const ORIGIN_CONTENT_EXPLORER: 'content_explorer' = 'content_explorer';
 export const ORIGIN_OPEN_WITH: 'open_with' = 'open_with';
 
@@ -447,6 +459,10 @@ export const TASK_EDIT_MODE_EDIT: 'EDIT' = 'EDIT';
 
 /* ----------------- Task Validation ---------------- */
 export const TASK_MAX_GROUP_ASSIGNEES: 250 = 250;
+
+/* ------------------ Comment (and Annotation) Statuses ----------------- */
+export const COMMENT_STATUS_OPEN: 'open' = 'open';
+export const COMMENT_STATUS_RESOLVED: 'resolved' = 'resolved';
 
 /* ----------------- Theme ---------------------------*/
 export const THEME_VERY_DARK = 'vDark';

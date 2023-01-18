@@ -106,7 +106,8 @@ exports[`features/unified-share-modal/UnifiedShareForm closeEmailSharedLinkForm(
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -305,7 +306,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should not rende
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -468,7 +470,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should not rende
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -631,7 +634,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -799,7 +803,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -963,7 +968,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1128,7 +1134,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1263,7 +1270,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1428,7 +1436,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1593,7 +1602,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1759,7 +1769,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -1934,7 +1945,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -2098,7 +2110,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -2266,7 +2279,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -2432,7 +2446,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           submitting={false}
@@ -2598,7 +2613,8 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
           onSubmit={[Function]}
           openInviteCollaboratorsSection={[Function]}
           recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
+          restrictedEmails={Array []}
+          restrictedGroups={Array []}
           selectedContacts={Array []}
           showEnterEmailsCallout={false}
           updateSelectedContacts={[Function]}
@@ -2618,165 +2634,6 @@ exports[`features/unified-share-modal/UnifiedShareForm render() should render a 
             inviteePermissionsButtonProps={Object {}}
             itemType="file"
           />
-        </EmailForm>
-      </div>
-    </Tooltip>
-  </LoadingIndicatorWrapper>
-</div>
-`;
-
-exports[`features/unified-share-modal/UnifiedShareForm render() should render a default component with upgrade CTA when showUpgradeOptions is enabled 1`] = `
-<div
-  className=""
->
-  <LoadingIndicatorWrapper
-    hideContent={true}
-    isLoading={false}
-  >
-    <Tooltip
-      className="usm-ftux-tooltip"
-      constrainToScrollParent={false}
-      constrainToWindow={true}
-      isDisabled={false}
-      position="middle-left"
-      showCloseButton={true}
-      text={
-        <div>
-          <h4
-            className="ftux-tooltip-title"
-          >
-            <FormattedMessage
-              defaultMessage="Simplified sharing for files and folders"
-              id="boxui.unifiedShare.ftuxNewUsmUserTitle"
-            />
-          </h4>
-          <p
-            className="ftux-tooltip-body"
-          >
-            <FormattedMessage
-              defaultMessage="We’ve simplified the sharing experience when you click 'Share'. Invite people to this item here and toggle the link on or off below for easy sharing."
-              id="boxui.unifiedShare.ftuxNewUSMUserBody"
-            />
-             
-            <Link
-              className="ftux-tooltip-link"
-              href="https://community.box.com/t5/Using-Shared-Links/Creating-Shared-Links/ta-p/19523"
-              target="_blank"
-            >
-              <FormattedMessage
-                defaultMessage="Read more about shared link security here."
-                id="boxui.unifiedShare.ftuxLinkText"
-              />
-            </Link>
-          </p>
-          <div
-            className="ftux-tooltip-controls"
-          >
-            <Button
-              className="ftux-tooltip-button"
-              isLoading={false}
-              onClick={[Function]}
-              showRadar={false}
-              type="submit"
-            >
-              <FormattedMessage
-                defaultMessage="Got it"
-                id="boxui.unifiedShare.ftuxConfirmLabel"
-              />
-            </Button>
-          </div>
-        </div>
-      }
-      theme="callout"
-    >
-      <div
-        className="invite-collaborator-container"
-        data-testid="invite-collaborator-container"
-      >
-        <EmailForm
-          contactsFieldAvatars={
-            <CollaboratorAvatars
-              collaborators={Array []}
-              containerAttributes={Object {}}
-              maxAdditionalCollaboratorsNum={99}
-              maxDisplayedUserAvatars={3}
-              onClick={[Function]}
-            />
-          }
-          contactsFieldDisabledTooltip={
-            <FormattedMessage
-              defaultMessage="You do not have permission to invite collaborators."
-              id="boxui.unifiedShare.inviteDisabledTooltip"
-            />
-          }
-          contactsFieldLabel={
-            <FormattedMessage
-              defaultMessage="Invite People"
-              id="boxui.unifiedShare.inviteFieldLabel"
-            />
-          }
-          inlineNotice={
-            Object {
-              "content": "",
-              "type": "warning",
-            }
-          }
-          isContactsFieldEnabled={true}
-          isExpanded={true}
-          isExternalUserSelected={false}
-          isFetchingJustificationReasons={false}
-          isRestrictionJustificationEnabled={false}
-          justificationReasons={Array []}
-          onContactInput={[Function]}
-          onPillCreate={[Function]}
-          onRequestClose={[Function]}
-          onSubmit={[Function]}
-          openInviteCollaboratorsSection={[Function]}
-          recommendedSharingTooltipCalloutName={null}
-          restrictedExternalEmails={Array []}
-          selectedContacts={Array []}
-          showEnterEmailsCallout={false}
-          updateSelectedContacts={[Function]}
-        >
-          <InviteePermissionsMenu
-            changeInviteePermissionLevel={[Function]}
-            disabled={false}
-            inviteePermissionLevel=""
-            inviteePermissions={
-              Array [
-                Object {
-                  "text": "Editor",
-                  "value": "Editor",
-                },
-              ]
-            }
-            inviteePermissionsButtonProps={Object {}}
-            itemType="file"
-          />
-          <div
-            className="upgrade-description"
-          >
-            <UpgradeBadge
-              type="warning"
-            />
-            <FormattedMessage
-              defaultMessage="62% of customers on your plan {upgradeGetMoreAccessControlsLink} to manage collaborators’ access and permission settings"
-              id="boxui.unifiedShare.upgradeGetMoreAccessControlsDescription"
-              values={
-                Object {
-                  "upgradeGetMoreAccessControlsLink": <Link
-                    className="upgrade-link"
-                    href="/upgrade"
-                  >
-                    <FormattedMessage
-                      defaultMessage="upgrade"
-                      id="boxui.unifiedShare.upgradeGetMoreAccessControlsLink"
-                    />
-                  </Link>,
-                }
-              }
-            />
-          </div>
         </EmailForm>
       </div>
     </Tooltip>

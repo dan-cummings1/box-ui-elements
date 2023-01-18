@@ -5,8 +5,7 @@ import getProp from 'lodash/get';
 import TetherComponent from 'react-tether';
 
 import TetherPosition from '../../common/tether-positions';
-import IconClose from '../../icon/fill/X16';
-import PlainButton from '../plain-button';
+import CloseButton from './CloseButton';
 
 import './Tooltip.scss';
 
@@ -81,6 +80,8 @@ export type DefaultTooltipProps = {
 };
 
 export type TooltipProps = {
+    /** Sets aria-hidden attribute on tooltip */
+    ariaHidden?: boolean;
     /** An HTML element to append the tooltip container into (otherwise appends to body) */
     bodyElement?: HTMLElement;
     /** A React element to put the tooltip on */
@@ -130,13 +131,28 @@ class Tooltip extends React.Component<TooltipProps, State> {
         this.setState({ hasRendered: true });
     }
 
-    componentDidUpdate(prevProps: TooltipProps) {
+    componentDidUpdate(prevProps: TooltipProps, prevState: State) {
+        const isControlled = this.isControlled();
+
         // Reset wasClosedByUser state when isShown transitions from false to true
-        if (this.isControlled()) {
+        if (isControlled) {
             if (!prevProps.isShown && this.props.isShown) {
                 this.setState({ wasClosedByUser: false });
             }
+        } else {
+            if (!prevState.isShown && this.state.isShown) {
+                // capture event so that tooltip closes before any other floating components that can be closed by
+                // "Escape" key(e.g. Modal, Menu, etc.)
+                document.addEventListener('keydown', this.handleKeyDown, true);
+            }
+            if (prevState.isShown && !this.state.isShown) {
+                document.removeEventListener('keydown', this.handleKeyDown, true);
+            }
         }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown, true);
     }
 
     tooltipID = uniqueId('tooltip');
@@ -158,7 +174,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
         }
     };
 
-    fireChildEvent = (type: string, event: React.SyntheticEvent<HTMLElement>) => {
+    fireChildEvent = (type: string, event: React.SyntheticEvent<HTMLElement> | Event) => {
         const { children } = this.props;
         const handler = (children as React.ReactElement).props[type];
         if (handler) {
@@ -196,8 +212,9 @@ class Tooltip extends React.Component<TooltipProps, State> {
         return typeof isShownProp !== 'undefined';
     };
 
-    handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
+            event.stopPropagation();
             this.setState({ isShown: false });
         }
         this.fireChildEvent('onKeyDown', event);
@@ -216,6 +233,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
 
     render() {
         const {
+            ariaHidden,
             bodyElement,
             children,
             className,
@@ -278,7 +296,6 @@ class Tooltip extends React.Component<TooltipProps, State> {
         if (!isControlled) {
             componentProps.onBlur = this.handleBlur;
             componentProps.onFocus = this.handleFocus;
-            componentProps.onKeyDown = this.handleKeyDown;
             componentProps.onMouseEnter = this.handleMouseEnter;
             componentProps.onMouseLeave = this.handleMouseLeave;
 
@@ -324,11 +341,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
         const tooltipInner = (
             <>
                 {text}
-                {withCloseButton && (
-                    <PlainButton className="tooltip-close-button" onClick={this.closeTooltip}>
-                        <IconClose className="bdl-Tooltip-iconClose" width={14} height={14} />
-                    </PlainButton>
-                )}
+                {withCloseButton && <CloseButton onClick={this.closeTooltip} />}
             </>
         );
 
@@ -336,15 +349,17 @@ class Tooltip extends React.Component<TooltipProps, State> {
             <div
                 className={classes}
                 id={this.tooltipID}
-                role="presentation"
                 onClick={this.handleTooltipEvent}
                 onContextMenu={this.handleTooltipEvent}
                 onKeyPress={this.handleTooltipEvent}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+                role="presentation"
             >
                 <div
                     role={theme === TooltipTheme.ERROR ? undefined : 'tooltip'}
                     aria-live="polite"
-                    aria-hidden={isLabelMatchingTooltipText}
+                    aria-hidden={ariaHidden || isLabelMatchingTooltipText}
                     data-testid="bdl-Tooltip"
                 >
                     {tooltipInner}
@@ -352,11 +367,13 @@ class Tooltip extends React.Component<TooltipProps, State> {
             </div>
         ) : (
             <div
+                aria-live="polite"
+                aria-hidden={ariaHidden || isLabelMatchingTooltipText}
                 className={classes}
                 data-testid="bdl-Tooltip"
                 id={this.tooltipID}
-                aria-live="polite"
-                aria-hidden={isLabelMatchingTooltipText}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
                 role={theme === TooltipTheme.ERROR ? undefined : 'tooltip'}
             >
                 {tooltipInner}

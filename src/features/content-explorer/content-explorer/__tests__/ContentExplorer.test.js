@@ -240,6 +240,22 @@ describe('features/content-explorer/content-explorer/ContentExplorer', () => {
                 expect(wrapper.find('ContentExplorerActionButtons').prop('areButtonsDisabled')).toBe(true);
             });
         });
+
+        test('should render with action buttons enabled in MULTI_SELECT mode if there is no selection made when isNoSelectionAllowed is true', () => {
+            const items = [
+                { id: '1', name: 'item1' },
+                { id: '2', name: 'item2' },
+                { id: '3', name: 'item3' },
+            ];
+
+            const wrapper = renderComponent({
+                contentExplorerMode: ContentExplorerModes.MULTI_SELECT,
+                items,
+                isNoSelectionAllowed: true,
+            });
+
+            expect(wrapper.find('ContentExplorerActionButtons').prop('areButtonsDisabled')).toBe(false);
+        });
     });
 
     describe('onEnterFolder', () => {
@@ -293,6 +309,29 @@ describe('features/content-explorer/content-explorer/ContentExplorer', () => {
                 .simulate('doubleClick');
 
             expect(onEnterFolderSpy.withArgs(clickedFolder, newFoldersPath).calledOnce).toBe(true);
+        });
+
+        test('should not call onEnterFolder when clicking disabled folder name', () => {
+            const disabledItems = [{ id: '123', name: 'item1', type: 'folder', isDisabled: true }];
+            wrapper = renderComponent(
+                {
+                    items: disabledItems,
+                    initialFoldersPath,
+                    onEnterFolder: onEnterFolderSpy,
+                },
+                true,
+            );
+
+            const clickedFolderIndex = 0;
+            const clickedFolder = items[clickedFolderIndex];
+            const newFoldersPath = initialFoldersPath.concat([clickedFolder]);
+
+            wrapper
+                .find('.item-list-name')
+                .first()
+                .simulate('click');
+
+            expect(onEnterFolderSpy.withArgs(clickedFolder, newFoldersPath).calledOnce).toBe(false);
         });
     });
 

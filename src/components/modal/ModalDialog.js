@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import { defineMessages, injectIntl } from 'react-intl';
 
-import IconClose from '../../icons/general/IconClose';
+import IconClose from '../../icon/fill/X16';
 
 const ALERT_TYPE = 'alert';
 const DIALOG_TYPE = 'dialog';
@@ -112,12 +112,14 @@ class ModalDialog extends React.Component<Props> {
 
         return (
             <div ref={modalRef} className={classNames('modal-dialog', className)} {...divProps}>
-                <div className="modal-header">
-                    <h2 className="modal-title" id={`${this.modalID}-label`}>
-                        {title}
-                    </h2>
+                <div className="modal-header-container">
+                    <div className="modal-header">
+                        <h2 className="modal-title" id={`${this.modalID}-label`}>
+                            {title}
+                        </h2>
+                    </div>
+                    {this.renderCloseButton()}
                 </div>
-                {this.renderCloseButton()}
                 {this.renderContent()}
             </div>
         );
