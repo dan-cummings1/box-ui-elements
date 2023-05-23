@@ -20,41 +20,37 @@ exports[`features/unified-share-modal/SharedLinkSection should match snapshot wh
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <span>
-            <FormattedMessage
-              defaultMessage="Shared link is created"
-              id="boxui.unifiedShare.linkShareOn"
-            />
-            <Tooltip
-              constrainToScrollParent={false}
-              constrainToWindow={true}
-              isDisabled={false}
-              position="top-center"
-              text="This link will expire and be inaccessible on {expiration, date, long}."
-              theme="default"
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <span>
+          <FormattedMessage
+            defaultMessage="Shared link is created"
+            id="boxui.unifiedShare.linkShareOn"
+          />
+          <Tooltip
+            constrainToScrollParent={false}
+            constrainToWindow={true}
+            isDisabled={false}
+            position="top-center"
+            text="This link will expire and be inaccessible on {expiration, date, long}."
+            theme="default"
+          >
+            <span
+              aria-label="Expires"
+              className="shared-link-expiration-badge"
+              role="img"
             >
-              <span
-                aria-label="Expires"
-                className="shared-link-expiration-badge"
-                role="img"
-              >
-                <IconClock
-                  color="#ed3757"
-                />
-              </span>
-            </Tooltip>
-          </span>
-        }
-        name="toggle"
-      />
-    </div>
+              <IconClock
+                color="#ed3757"
+              />
+            </span>
+          </Tooltip>
+        </span>
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -125,6 +121,13 @@ exports[`features/unified-share-modal/SharedLinkSection should match snapshot wh
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -193,21 +196,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render a default 
       text="You do not have permission to remove the link."
       theme="default"
     >
-      <div
-        className="share-toggle-container"
-      >
-        <Toggle
-          isDisabled={true}
-          isOn={true}
-          label={
-            <FormattedMessage
-              defaultMessage="Shared link is created"
-              id="boxui.unifiedShare.linkShareOn"
-            />
-          }
-          name="toggle"
-        />
-      </div>
+      <Toggle
+        isDisabled={true}
+        isOn={true}
+        label={
+          <FormattedMessage
+            defaultMessage="Shared link is created"
+            id="boxui.unifiedShare.linkShareOn"
+          />
+        }
+        name="toggle"
+      />
     </Tooltip>
   </div>
   <div
@@ -279,6 +278,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render a default 
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -342,21 +348,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render default co
       text="Create and copy link for sharing"
       theme="default"
     >
-      <div
-        className="share-toggle-container"
-      >
-        <Toggle
-          isDisabled={false}
-          isOn={false}
-          label={
-            <FormattedMessage
-              defaultMessage="Create shared link"
-              id="boxui.unifiedShare.linkShareOff"
-            />
-          }
-          name="toggle"
-        />
-      </div>
+      <Toggle
+        isDisabled={false}
+        isOn={false}
+        label={
+          <FormattedMessage
+            defaultMessage="Create shared link"
+            id="boxui.unifiedShare.linkShareOff"
+          />
+        }
+        name="toggle"
+      />
     </Tooltip>
   </div>
 </div>
@@ -382,21 +384,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render default co
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -467,6 +465,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render default co
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -526,21 +531,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render default co
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={true}
-        isOn={false}
-        label={
-          <FormattedMessage
-            defaultMessage="Create shared link"
-            id="boxui.unifiedShare.linkShareOff"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={true}
+      isOn={false}
+      label={
+        <FormattedMessage
+          defaultMessage="Create shared link"
+          id="boxui.unifiedShare.linkShareOff"
+        />
+      }
+      name="toggle"
+    />
   </div>
 </div>
 `;
@@ -555,21 +556,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render disabled c
   text="You do not have permission to create the link."
   theme="default"
 >
-  <div
-    className="share-toggle-container"
-  >
-    <Toggle
-      isDisabled={true}
-      isOn={false}
-      label={
-        <FormattedMessage
-          defaultMessage="Create shared link"
-          id="boxui.unifiedShare.linkShareOff"
-        />
-      }
-      name="toggle"
-    />
-  </div>
+  <Toggle
+    isDisabled={true}
+    isOn={false}
+    label={
+      <FormattedMessage
+        defaultMessage="Create shared link"
+        id="boxui.unifiedShare.linkShareOff"
+      />
+    }
+    name="toggle"
+  />
 </Tooltip>
 `;
 
@@ -583,21 +580,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render disabled r
   text="You do not have permission to remove the link."
   theme="default"
 >
-  <div
-    className="share-toggle-container"
-  >
-    <Toggle
-      isDisabled={true}
-      isOn={true}
-      label={
-        <FormattedMessage
-          defaultMessage="Shared link is created"
-          id="boxui.unifiedShare.linkShareOn"
-        />
-      }
-      name="toggle"
-    />
-  </div>
+  <Toggle
+    isDisabled={true}
+    isOn={true}
+    label={
+      <FormattedMessage
+        defaultMessage="Shared link is created"
+        id="boxui.unifiedShare.linkShareOn"
+      />
+    }
+    name="toggle"
+  />
 </Tooltip>
 `;
 
@@ -630,21 +623,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper dro
       text="You do not have permission to remove the link."
       theme="default"
     >
-      <div
-        className="share-toggle-container"
-      >
-        <Toggle
-          isDisabled={true}
-          isOn={true}
-          label={
-            <FormattedMessage
-              defaultMessage="Shared link is created"
-              id="boxui.unifiedShare.linkShareOn"
-            />
-          }
-          name="toggle"
-        />
-      </div>
+      <Toggle
+        isDisabled={true}
+        isOn={true}
+        label={
+          <FormattedMessage
+            defaultMessage="Shared link is created"
+            id="boxui.unifiedShare.linkShareOn"
+          />
+        }
+        name="toggle"
+      />
     </Tooltip>
   </div>
   <div
@@ -714,6 +703,19 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper dro
       accessLevelsDisabledReason={Object {}}
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
+      item={
+        Object {
+          "accessLevel": "peopleInYourCompany",
+          "description": "some description",
+          "extension": "boxnote",
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+          "id": 12345,
+          "name": "text.boxnote",
+          "type": "file",
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -767,21 +769,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -852,6 +850,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -912,21 +917,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -997,6 +998,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -1056,21 +1064,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -1141,6 +1145,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -1200,21 +1211,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -1285,6 +1292,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}
@@ -1326,7 +1340,7 @@ exports[`features/unified-share-modal/SharedLinkSection should render proper lis
 
 exports[`features/unified-share-modal/SharedLinkSection should render settings link when handler is provided and shared link is enabled 1`] = `
 <PlainButton
-  aria-label="Open shared link settings popup"
+  aria-haspopup="dialog"
   className="shared-link-settings-btn"
   data-resin-target="settings"
   onClick={
@@ -1371,21 +1385,17 @@ exports[`features/unified-share-modal/SharedLinkSection should render without Sh
   <div
     className="shared-link-toggle-row"
   >
-    <div
-      className="share-toggle-container"
-    >
-      <Toggle
-        isDisabled={false}
-        isOn={true}
-        label={
-          <FormattedMessage
-            defaultMessage="Shared link is created"
-            id="boxui.unifiedShare.linkShareOn"
-          />
-        }
-        name="toggle"
-      />
-    </div>
+    <Toggle
+      isDisabled={false}
+      isOn={true}
+      label={
+        <FormattedMessage
+          defaultMessage="Shared link is created"
+          id="boxui.unifiedShare.linkShareOn"
+        />
+      }
+      name="toggle"
+    />
   </div>
   <div
     className="shared-link-field-row"
@@ -1456,6 +1466,13 @@ exports[`features/unified-share-modal/SharedLinkSection should render without Sh
       allowedAccessLevels={Object {}}
       changeAccessLevel={[Function]}
       enterpriseName="Box"
+      item={
+        Object {
+          "grantedPermissions": Object {
+            "itemShare": true,
+          },
+        }
+      }
       itemType="file"
       onDismissTooltip={[Function]}
       tooltipContent={null}

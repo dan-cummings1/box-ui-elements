@@ -57,6 +57,7 @@ exports[`elements/content-sidebar/ActiveState/activity-feed/ActiveState should r
         }
       }
       data-testid="activity-thread"
+      hasNewThreadedReplies={false}
       hasReplies={false}
       onHideReplies={[Function]}
       onReplyCreate={[Function]}
@@ -102,7 +103,9 @@ exports[`elements/content-sidebar/ActiveState/activity-feed/ActiveState should r
   </ForwardRef(ActivityItem)>
   <ForwardRef(ActivityItem)
     data-testid="comment"
+    hasNewThreadedReplies={false}
     isFocused={false}
+    isHoverable={true}
     key="commentc_123"
   >
     <ActivityThread
@@ -113,6 +116,7 @@ exports[`elements/content-sidebar/ActiveState/activity-feed/ActiveState should r
         }
       }
       data-testid="activity-thread"
+      hasNewThreadedReplies={false}
       hasReplies={false}
       onHideReplies={[Function]}
       onReplyCreate={[Function]}

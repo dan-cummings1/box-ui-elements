@@ -52,6 +52,7 @@ type Props = {
     getAvatarUrl: GetAvatarUrlCallback,
     getMentionWithQuery?: Function,
     getUserProfileUrl?: GetProfileUrlCallback,
+    hasNewThreadedReplies?: boolean,
     hasReplies?: boolean,
     hasVersions?: boolean,
     isDisabled?: boolean,
@@ -283,6 +284,7 @@ class ActivityFeed extends React.Component<Props, State> {
             getAvatarUrl,
             getMentionWithQuery,
             getUserProfileUrl,
+            hasNewThreadedReplies,
             hasReplies,
             hasVersions,
             isDisabled,
@@ -349,7 +351,7 @@ class ActivityFeed extends React.Component<Props, State> {
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div
                 className={classNames('bcs-activity-feed', { 'bcs-is-scrolled': isScrolled })}
-                data-testid="activityfeed"
+                data-testid={isScrolled ? 'activityfeedscrolled' : 'activityfeed'}
                 onKeyDown={this.onKeyDown}
             >
                 <div
@@ -383,6 +385,7 @@ class ActivityFeed extends React.Component<Props, State> {
                             getAvatarUrl={getAvatarUrl}
                             getMentionWithQuery={getMentionWithQuery}
                             getUserProfileUrl={getUserProfileUrl}
+                            hasNewThreadedReplies={hasNewThreadedReplies}
                             hasReplies={hasReplies}
                             hasVersions={hasVersions}
                             isDisabled={isDisabled}

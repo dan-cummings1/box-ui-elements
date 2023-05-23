@@ -287,11 +287,11 @@ type SharedLinkSectionTypes = {
     onCopySuccess?: () => void,
     /** Handler function that gets called whenever the user dismisses a tooltip on the given component identifier */
     onDismissTooltip?: (componentIdentifier: tooltipComponentIdentifierType) => void,
-    /** Handler function for clicks on the settings icon. If not provided, the settings icon won't be rendered. */
+    /** Handler function for clicks on the settings button. If not provided, the settings button won't be rendered. */
     onSettingsClick?: Function,
     /** Shared link data */
     sharedLink: sharedLinkType,
-    /** Shows a callout tooltip next gear icon with info about what can be customized */
+    /** Shows a callout tooltip next to settings button with info about what can be customized */
     showSharedLinkSettingsCallout?: boolean,
     /** Mapping of components to the content that should be rendered in their tooltips */
     tooltips?: { [componentIdentifier: tooltipComponentIdentifierType]: React.Node },
@@ -319,6 +319,12 @@ type EmailFormTypes = {
     sendSharedLinkError: React.Node,
 };
 
+type AdvancedContentInsightsUSProps = {
+    isAdvancedContentInsightsChecked?: boolean,
+    /** Handler function that gets called whenever the Advanced Content Insights toggle changes */
+    onAdvancedContentInsightsToggle?: Function,
+};
+
 export type USMConfig = {
     /** Whether the "Email Shared Link" button and form should be rendered in the USM/USF */
     showEmailSharedLinkForm: boolean,
@@ -328,6 +334,7 @@ export type USMConfig = {
 
 // Prop types shared by both the Unified Share Modal and the Unified Share Form
 type BaseUnifiedShareProps = CollaboratorAvatarsTypes &
+    AdvancedContentInsightsUSProps &
     EmailFormTypes &
     CollabRestrictionsTypes &
     InviteSectionTypes &

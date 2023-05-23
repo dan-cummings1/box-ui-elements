@@ -18,7 +18,7 @@ import IconGlobe from '../../icons/general/IconGlobe';
 import { bdlWatermelonRed } from '../../styles/variables';
 import type { ItemType } from '../../common/types/core';
 import type { TargetingApi } from '../targeting/types';
-import { isBoxNote } from '../../utils/file';
+import { isBoxCanvas, isBoxNote } from '../../utils/file';
 import Browser from '../../utils/Browser';
 
 import convertToBoxItem from './utils/item';
@@ -280,6 +280,7 @@ class SharedLinkSection extends React.Component<Props, State> {
         const hideEmailButton = config && config.showEmailSharedLinkForm === false;
 
         const isEditableBoxNote = isBoxNote(convertToBoxItem(item)) && isEditAllowed;
+        const isBoxCanvasFile = isBoxCanvas(convertToBoxItem(item));
         const allowedPermissionLevels = this.getAllowedPermissionLevels();
 
         return (
@@ -330,6 +331,7 @@ class SharedLinkSection extends React.Component<Props, State> {
                         allowedAccessLevels={allowedAccessLevels}
                         changeAccessLevel={changeSharedLinkAccessLevel}
                         enterpriseName={enterpriseName}
+                        item={item}
                         itemType={itemType}
                         onDismissTooltip={() => onDismissTooltip('shared-link-access-menu')}
                         tooltipContent={tooltips['shared-link-access-menu'] || null}
@@ -384,12 +386,20 @@ class SharedLinkSection extends React.Component<Props, State> {
                         <span className="security-indicator-icon-globe">
                             <IconGlobe height={12} width={12} />
                         </span>
-                        {permissionLevel === CAN_EDIT ? (
+                        {/* TODO: temporary change to support Canvas not being truly public */}
+                        {isBoxCanvasFile && (
+                            <FormattedMessage
+                                data-testid="shared-link-publicly-available-message"
+                                {...messages.canvasSharedLinkPubliclyAvailable}
+                            />
+                        )}
+                        {!isBoxCanvasFile && permissionLevel === CAN_EDIT && (
                             <FormattedMessage
                                 data-testid="shared-link-editable-publicly-available-message"
                                 {...messages.sharedLinkEditablePubliclyAvailable}
                             />
-                        ) : (
+                        )}
+                        {!isBoxCanvasFile && permissionLevel !== CAN_EDIT && (
                             <FormattedMessage
                                 data-testid="shared-link-publicly-available-message"
                                 {...messages.sharedLinkPubliclyAvailable}
@@ -438,7 +448,7 @@ class SharedLinkSection extends React.Component<Props, State> {
                 >
                     <PlainButton
                         {...sharedLinkSettingsButtonProps}
-                        aria-label={intl.formatMessage(messages.settingsButtonLabel)}
+                        aria-haspopup="dialog"
                         className="shared-link-settings-btn"
                         onClick={onSettingsClick}
                         type="button"
@@ -487,18 +497,16 @@ class SharedLinkSection extends React.Component<Props, State> {
         }
 
         const toggleComponent = (
-            <div className="share-toggle-container">
-                <Toggle
-                    isDisabled={!isToggleEnabled}
-                    isOn={isSharedLinkEnabled}
-                    label={linkText}
-                    name="toggle"
-                    onChange={onToggleSharedLink}
-                    ref={ref => {
-                        this.toggleRef = ref;
-                    }}
-                />
-            </div>
+            <Toggle
+                isDisabled={!isToggleEnabled}
+                isOn={isSharedLinkEnabled}
+                label={linkText}
+                name="toggle"
+                onChange={onToggleSharedLink}
+                ref={ref => {
+                    this.toggleRef = ref;
+                }}
+            />
         );
 
         if (!submitting) {
