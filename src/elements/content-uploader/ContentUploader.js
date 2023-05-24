@@ -150,7 +150,7 @@ class ContentUploader extends Component<Props, State> {
         onResume: noop,
         onUpload: noop,
         onProgress: noop,
-        overwrite: true,
+        overwrite: false,
         useUploadsManager: false,
         files: [],
         onMinimize: noop,
