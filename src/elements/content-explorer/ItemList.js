@@ -23,6 +23,7 @@ import { FIELD_DATE, FIELD_ID, FIELD_NAME, FIELD_SIZE, VIEW_FOLDER, VIEW_RECENTS
 import type { View, Collection } from '../../common/types/core';
 import '@box/react-virtualized/styles.css';
 import './ItemList.scss';
+import checkboxCellRenderer from '../common/item/checkboxCellRenderer';
 
 type Props = {
     canDelete: boolean,
@@ -35,6 +36,7 @@ type Props = {
     isMedium: boolean,
     isSmall: boolean,
     isTouch: boolean,
+    onItemChecked: Function,
     onItemClick: Function,
     onItemDelete: Function,
     onItemDownload: Function,
@@ -62,6 +64,7 @@ const ItemList = ({
     canPreview,
     canRename,
     onItemClick,
+    onItemChecked,
     onItemSelect,
     onItemDelete,
     onItemDownload,
@@ -83,6 +86,7 @@ const ItemList = ({
         isSmall, // shows details if false
         isTouch,
     );
+    const checkboxCell = checkboxCellRenderer(onItemChecked);
     const iconCell = iconCellRenderer();
     const dateCell = dateCellRenderer();
     const sizeAccessCell = sizeCellRenderer();
@@ -162,6 +166,14 @@ const ItemList = ({
                                 }
                             }}
                         >
+                            <Column
+                                disableSort
+                                dataKey={FIELD_ID}
+                                cellRenderer={checkboxCell}
+                                headerRole="gridcell"
+                                width={isSmall ? 30 : 50}
+                                flexShrink={0}
+                            />
                             <Column
                                 disableSort
                                 dataKey={FIELD_ID}

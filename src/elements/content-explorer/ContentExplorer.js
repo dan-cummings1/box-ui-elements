@@ -13,6 +13,8 @@ import flow from 'lodash/flow';
 import getProp from 'lodash/get';
 import noop from 'lodash/noop';
 import uniqueid from 'lodash/uniqueId';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 import CreateFolderDialog from '../common/create-folder-dialog';
 import UploadDialog from '../common/upload-dialog';
 import Header from '../common/header';
@@ -160,6 +162,7 @@ type State = {
     isShareModalOpen: boolean,
     isUploadModalOpen: boolean,
     markers: Array<?string>,
+    multiSelected: Array<BoxItem>,
     rootName: string,
     searchQuery: string,
     selected?: BoxItem,
@@ -285,6 +288,7 @@ class ContentExplorer extends Component<Props, State> {
             isShareModalOpen: false,
             isUploadModalOpen: false,
             markers: [],
+            multiSelected: [],
             rootName: '',
             searchQuery: '',
             sortBy,
@@ -588,6 +592,33 @@ class ContentExplorer extends Component<Props, State> {
             this.errorCallback,
             { fields: CONTENT_EXPLORER_FOLDER_FIELDS_TO_FETCH, forceFetch: true },
         );
+    };
+
+    /**
+     * Action performed when selecting a checkbox on an item
+     * @private
+     *
+     */
+
+    onItemChecked = (event, item: BoxItem) => {
+        if (event.target.checked) {
+            const id = this.state.multiSelected.find(i => i.id === item.id);
+            if (id === undefined) {
+                this.setState({
+                    multiSelected: [...this.state.multiSelected, item],
+                });
+                this.select(item);
+            }
+        } else {
+            const id = this.state.multiSelected.find(i => i.id === item.id);
+            if (id !== undefined) {
+                const tempArray = this.state.multiSelected.filter(i => i.id !== item.id);
+                this.setState({
+                    multiSelected: tempArray,
+                });
+                this.select(item);
+            }
+        }
     };
 
     /**
@@ -1010,6 +1041,63 @@ class ContentExplorer extends Component<Props, State> {
      */
     download = (item: BoxItem): void => {
         this.select(item, this.downloadCallback);
+    };
+
+    downloadAll = async (event): void => {
+        event.preventDefault();
+        const zip = new JSZip();
+        const promises: Promise[] = [];
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const item of this.state.multiSelected) {
+            const { id, permissions } = item;
+            if (!id || !permissions) {
+                return;
+            }
+            const { can_download }: BoxItemPermission = permissions;
+            if (!can_download) {
+                return;
+            }
+
+            const openUrl: Function = (url: string) => {
+                if (this.props.downloadHost !== DEFAULT_HOSTNAME_DOWNLOAD) {
+                    url = url.replace(DEFAULT_HOSTNAME_DOWNLOAD, this.props.downloadHost);
+                }
+                const blobPromise = fetch(url)
+                    .then(r => {
+                        if (r.status === 200) return r.blob();
+                        return Promise.reject(new Error(r.statusText));
+                    })
+                    .then(blob => {
+                        let { name } = item;
+                        name = name.toLowerCase();
+                        zip.file(name, blob, { binary: true });
+                    });
+                promises.push(blobPromise);
+
+                this.props.onDownload(cloneDeep([item]));
+            };
+            const { type }: BoxItem = item;
+            if (type === TYPE_FILE) {
+                await this.api.getFileAPI().getDownloadUrl(id, item, openUrl, noop);
+            }
+        }
+        await Promise.all(promises);
+        zip.generateAsync(
+            {
+                type: 'blob',
+                streamFiles: false,
+            },
+            function updateCallback(metadata) {
+                console.log(`${Math.round(metadata.percent)}%`);
+            },
+        )
+            .then(function(blob) {
+                saveAs(blob, 'archive.zip'); // Filesaver.js
+                console.log('Finished');
+            })
+            .catch(function(e) {
+                console.log(e);
+            });
     };
 
     /**
@@ -1691,9 +1779,11 @@ class ContentExplorer extends Component<Props, State> {
                                     gridColumnCount={gridColumnCount}
                                     gridMaxColumns={GRID_VIEW_MAX_COLUMNS}
                                     gridMinColumns={GRID_VIEW_MIN_COLUMNS}
+                                    hasMultipleItems={this.state.multiSelected.length > 0}
                                     maxGridColumnCountForWidth={maxGridColumnCount}
                                     onUpload={this.upload}
                                     onCreate={this.createFolder}
+                                    onDownloadAll={this.downloadAll}
                                     onGridViewSliderChange={this.onGridViewSliderChange}
                                     onItemClick={this.fetchFolder}
                                     onSortChange={this.sort}
@@ -1715,6 +1805,7 @@ class ContentExplorer extends Component<Props, State> {
                             isSmall={isSmall}
                             isTouch={isTouch}
                             fieldsToShow={fieldsToShow}
+                            onItemChecked={this.onItemChecked}
                             onItemClick={this.onItemClick}
                             onItemDelete={this.delete}
                             onItemDownload={this.download}

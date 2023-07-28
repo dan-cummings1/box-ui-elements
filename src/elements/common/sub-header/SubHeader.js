@@ -21,9 +21,11 @@ type Props = {
     gridColumnCount?: number,
     gridMaxColumns?: number,
     gridMinColumns?: number,
+    hasMultipleItems: boolean,
     isSmall: boolean,
     maxGridColumnCountForWidth?: number,
     onCreate: Function,
+    onDownloadAll: Function,
     onGridViewSliderChange?: (newSliderValue: number) => void,
     onItemClick: Function,
     onSortChange: Function,
@@ -42,10 +44,12 @@ const SubHeader = ({
     gridColumnCount = 0,
     gridMaxColumns = 0,
     gridMinColumns = 0,
+    hasMultipleItems = false,
     maxGridColumnCountForWidth = 0,
     onGridViewSliderChange = noop,
     isSmall,
     onCreate,
+    onDownloadAll,
     onItemClick,
     onSortChange,
     onUpload,
@@ -71,8 +75,10 @@ const SubHeader = ({
             gridColumnCount={gridColumnCount}
             gridMaxColumns={gridMaxColumns}
             gridMinColumns={gridMinColumns}
+            hasMultipleItems={hasMultipleItems}
             maxGridColumnCountForWidth={maxGridColumnCountForWidth}
             onCreate={onCreate}
+            onDownloadAll={onDownloadAll}
             onGridViewSliderChange={onGridViewSliderChange}
             onSortChange={onSortChange}
             onUpload={onUpload}
