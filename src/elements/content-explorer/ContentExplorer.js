@@ -315,6 +315,7 @@ class ContentExplorer extends Component<Props, State> {
      * @return {void}
      */
     componentWillUnmount() {
+        this.setState({ multiSelected: [] });
         this.clearCache();
     }
 
@@ -329,7 +330,7 @@ class ContentExplorer extends Component<Props, State> {
         const { currentFolderId, defaultView }: Props = this.props;
         this.rootElement = ((document.getElementById(this.id): any): HTMLElement);
         this.appElement = ((this.rootElement.firstElementChild: any): HTMLElement);
-
+        this.setState({ multiSelected: [] });
         switch (defaultView) {
             case DEFAULT_VIEW_RECENTS:
                 this.showRecents();
@@ -361,6 +362,7 @@ class ContentExplorer extends Component<Props, State> {
         }
 
         if (typeof currentFolderId === 'string' && id !== currentFolderId) {
+            this.setState({ multiSelected: [] });
             this.fetchFolder(currentFolderId);
         }
     }
@@ -1058,7 +1060,7 @@ class ContentExplorer extends Component<Props, State> {
                 return;
             }
 
-            const openUrl: Function = (url: string) => {
+            const getBlob: Function = (url: string) => {
                 if (this.props.downloadHost !== DEFAULT_HOSTNAME_DOWNLOAD) {
                     url = url.replace(DEFAULT_HOSTNAME_DOWNLOAD, this.props.downloadHost);
                 }
@@ -1078,25 +1080,19 @@ class ContentExplorer extends Component<Props, State> {
             };
             const { type }: BoxItem = item;
             if (type === TYPE_FILE) {
-                await this.api.getFileAPI().getDownloadUrl(id, item, openUrl, noop);
+                await this.api.getFileAPI().getDownloadUrl(id, item, getBlob, noop);
             }
         }
         await Promise.all(promises);
-        zip.generateAsync(
-            {
-                type: 'blob',
-                streamFiles: false,
-            },
-            function updateCallback(metadata) {
-                console.log(`${Math.round(metadata.percent)}%`);
-            },
-        )
-            .then(function(blob) {
+        zip.generateAsync({
+            type: 'blob',
+            streamFiles: false,
+        })
+            .then(blob => {
                 saveAs(blob, 'archive.zip'); // Filesaver.js
-                console.log('Finished');
             })
-            .catch(function(e) {
-                console.log(e);
+            .catch(e => {
+                console.error(e);
             });
     };
 

@@ -9,5 +9,5 @@ import CheckboxCell from './CheckboxCell';
 import type { BoxItem } from '../../../common/types/core';
 
 export default (onItemChecked: Function) => ({ rowData }: { rowData: BoxItem }) => (
-    <CheckboxCell onItemChecked={onItemChecked} item={rowData} />
+    <CheckboxCell key={rowData.id} onItemChecked={onItemChecked} item={rowData} />
 );

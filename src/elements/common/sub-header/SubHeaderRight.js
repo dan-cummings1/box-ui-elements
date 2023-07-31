@@ -68,7 +68,7 @@ const SubHeaderRight = ({
                     onChange={onGridViewSliderChange}
                 />
             )}
-            {hasMultipleItems && viewMode === VIEW_MODE_GRID && (
+            {hasMultipleItems && viewMode !== VIEW_MODE_GRID && (
                 <button type="button" className="btn" onClick={onDownloadAll}>
                     Download all
                 </button>
