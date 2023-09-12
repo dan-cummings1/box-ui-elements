@@ -21,8 +21,10 @@ type Props = {
     gridColumnCount: number,
     gridMaxColumns: number,
     gridMinColumns: number,
+    hasMultipleItems: boolean,
     maxGridColumnCountForWidth: number,
     onCreate: Function,
+    onDownloadAll: Function,
     onGridViewSliderChange: (newSliderValue: number) => void,
     onSortChange: Function,
     onUpload: Function,
@@ -38,8 +40,10 @@ const SubHeaderRight = ({
     gridColumnCount,
     gridMaxColumns,
     gridMinColumns,
+    hasMultipleItems,
     maxGridColumnCountForWidth,
     onCreate,
+    onDownloadAll,
     onGridViewSliderChange,
     onSortChange,
     onUpload,
@@ -63,6 +67,11 @@ const SubHeaderRight = ({
                     maxColumnCount={maxGridColumnCountForWidth}
                     onChange={onGridViewSliderChange}
                 />
+            )}
+            {hasMultipleItems && viewMode !== VIEW_MODE_GRID && (
+                <button type="button" className="btn" onClick={onDownloadAll}>
+                    Download all
+                </button>
             )}
             {hasItems && hasGridView && (
                 <ViewModeChangeButton viewMode={viewMode} onViewModeChange={onViewModeChange} />

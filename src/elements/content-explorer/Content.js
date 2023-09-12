@@ -42,6 +42,7 @@ type Props = {
     isMedium: boolean,
     isSmall: boolean,
     isTouch: boolean,
+    onItemChecked: Function,
     onItemClick: Function,
     onItemDelete: Function,
     onItemDownload: Function,
